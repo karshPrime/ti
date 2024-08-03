@@ -71,13 +71,28 @@ int main(int argc, char** argv) {
 }
 
 void print_help() {
-	printf("help\n");
+	printf("Text Invert (ti): Utility to invert text in differet forms.\n");
+	print_usage();
+}
+
+void print_option(char* s, char* l, char* d) {
+	printf("  %-3s %-10s %s\n", s, l, d);
 }
 
 void print_usage() {
-	printf("$ ti {OPTION} text\n");
-	printf("$ <stdout> | ti {OPTION}\n");
+	printf("\nUSAGE:\n");
+	printf("  $ ti {OPTION} text\n");
+	printf("  $ <stdout> | ti {OPTION}\n");
 	printf("\nOPTIONS:\n");
+	print_option("c", "case", "lowercase all text");
+	print_option("C", "CASE", "upperCase all text");
+	print_option("s", "sentence", "Sentence case all text");
+	print_option("w", "word", "Capitalise All Words");
+	print_option("r", "rotate13", "hfr ebgngvba 13 nytbevguz");
+	print_option("f", "flip", "fLIP CASES");
+	print_option("m", "mock", "mOcK TeXt");
+	print_option("i", "index", "individual letter's alphabetic index");
+	print_option("a", "ascii", "individual letter's ASCII decimal");
 	printf("\n");
 }
 
