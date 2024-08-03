@@ -19,4 +19,5 @@ void mock(char** aText);		// -m --mock
 // int view
 void charindx(char** aText);	// -i --index
 void ascii(char** aText);		// -a --ascii
+void ascii_bin(char** aText);	// -a --ascii-binary
 

@@ -111,21 +111,39 @@ void flip(char** aText) {
 
 // 1618091420 0308011819 0119 2008050918 0112160801020520 0914040524
 void charindx(char** aText) {
-    for (int i = 0; (*aText)[i] != '\0'; i++) {
-        if (isalpha((*aText)[i])) {
-            printf("%02d", tolower((*aText)[i]) - 'a' + 1);
-        } else {
-            printf("%c", (*aText)[i]);
-        }
-    }
-    printf("\n");
+	for (int i = 0; (*aText)[i] != '\0'; i++) {
+		if (isalpha((*aText)[i])) {
+			printf("%02d", tolower((*aText)[i]) - 'a' + 1);
+		} else {
+			printf("%c", (*aText)[i]);
+		}
+	}
+	printf("\n");
 }
 
 // 112 114 105 110 116 32 99 104 97 114 115 32 97 115 32 65 83 67 73 73
 void ascii(char** aText) {
-    for (int i = 0; (*aText)[i] != '\0'; i++) {
+	for (int i = 0; (*aText)[i] != '\0'; i++) {
 		printf("%02d ", (*aText)[i]);
-    }
-    printf("\n");
+	}
+	printf("\n");
+}
+
+// 01100001 01110011 01100011 01101001 01101001 
+// 01101001 01101110 
+// 01100010 01101001 01101110 01100001 01110010 01111001 
+void ascii_bin(char** aText) {
+	for (int i = 0; (*aText)[i] != '\0'; i++) {
+		for (int j = 7; j >= 0; j--) {
+			unsigned int mask = 1 << j;
+			if ((*aText)[i] & mask) {
+				printf("1");
+			} else {
+				printf("0");
+			}
+		}
+		printf(" ");
+	}
+	printf("\n");
 }
 

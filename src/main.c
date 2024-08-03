@@ -18,7 +18,8 @@ const Flags Actions[] = {
 	{ "-f",	"--flip",		flip	 },
 	{ "-m",	"--mock",		mock	 },
 	{ "-i",	"--charindx",	charindx },
-	{ "-a",	"--ascii",		ascii	 }
+	{ "-a",	"--ascii",		ascii	 },
+	{ "-A", "--ascii-bin",	ascii_bin}
 };
 const uint ActionsCount = sizeof(Actions) / sizeof(Actions[0]);
 
@@ -76,14 +77,14 @@ void print_help() {
 	printf("Text Invert (ti): Utility to invert text in differet forms.\n");
 	print_usage();
 
-	printf("Interactive Mode\n");
-	printf("When the utility is invoked with only an OPTION and no text, it enters\n");
-	printf("interactive mode. In this mode, text can be entered at the prompt. To exit\n");
-	printf("interactive mode and trigger the action, `Ctrl+D` should be pressed.\n");
+	printf("INTERACTIVE MODE:\n");
+	printf("  When the utility is invoked with only an OPTION and no text, it enters\n");
+	printf("  interactive mode. In this mode, text can be entered at the prompt. To exit\n");
+	printf("  interactive mode and trigger the action, press `Ctrl+D`.\n");
 }
 
 void print_option(char* s, char* l, char* d) {
-	printf("  %-3s %-10s %s\n", s, l, d);
+	printf("  %-3s %-11s %s\n", s, l, d);
 }
 
 void print_usage() {
@@ -100,6 +101,7 @@ void print_usage() {
 	print_option("m", "mock", "mOcK TeXt");
 	print_option("i", "index", "individual letter's alphabetic index");
 	print_option("a", "ascii", "individual letter's ASCII decimal");
+	print_option("A", "ascii-bin", "individual letter's ASCII binary");
 	printf("\n");
 }
 
