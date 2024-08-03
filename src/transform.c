@@ -1,4 +1,8 @@
 
+/* transform.c
+ * implementation of all transform actions supported by the util
+ */
+
 #include "transform.h"
 
 #include <stdio.h>

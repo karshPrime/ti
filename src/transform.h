@@ -1,4 +1,8 @@
 
+/* transform.h
+ * declare all transformation actions supported by the utility
+ */
+
 #pragma once
 
 // case
