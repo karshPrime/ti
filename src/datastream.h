@@ -15,11 +15,6 @@ typedef struct {
 	void	(*Action)(char**);
 } Flags;
 
-typedef struct {
-	char**	Values;
-	uint	Size;
-} Input;
-
-Input piped_data();
+char* piped_data();
 bool check_cmd(char** aInput, char* aShort, char* aLong);
 

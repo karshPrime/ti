@@ -13,13 +13,12 @@ bool check_cmd(char** aInput, char* aShort, char* aLong) {
 	return !( strcmp(*aInput, aShort) && strcmp(*aInput, aLong) );
 }
 
-Input piped_data() {
+char* piped_data() {
 	char *inputBuffer = NULL;
-	unsigned int bufferSize = 0;
-	unsigned int inputSize = 0;
+	size_t bufferSize = 0;
+	size_t inputSize = 0;
 	int ch;
 
-	// Read all piped text
 	while ((ch = getchar()) != EOF) {
 		if (inputSize >= bufferSize) {
 			bufferSize += 256;
@@ -34,7 +33,6 @@ Input piped_data() {
 		inputBuffer[inputSize++] = (char)ch;
 	}
 
-	// Null-terminate the string
 	if (inputSize >= bufferSize) {
 		bufferSize += 1;
 		char *newBuffer = realloc(inputBuffer, bufferSize);
@@ -46,37 +44,6 @@ Input piped_data() {
 		inputBuffer = newBuffer;
 	}
 	inputBuffer[inputSize] = '\0';
-
-	// Split inputBuffer into strings
-	char** values = NULL;
-	unsigned int valuesSize = 0;
-
-	char* token = strtok(inputBuffer, " \n");  // Split by space or newline
-	while (token != NULL) {
-		values = realloc(values, sizeof(char*) * (valuesSize + 1));
-		if (!values) {
-			fprintf(stderr, "Memory allocation error\n");
-			free(inputBuffer);
-			exit(1);
-		}
-		values[valuesSize] = strdup(token);  // Copy token to values array
-		if (!values[valuesSize]) {
-			fprintf(stderr, "Memory allocation error\n");
-			free(inputBuffer);
-			for (unsigned int i = 0; i < valuesSize; ++i) {
-				free(values[i]);
-			}
-			free(values);
-			exit(1);
-		}
-		valuesSize++;
-		token = strtok(NULL, " \n");
-	}
-
-	// Clean up the input buffer
-	free(inputBuffer);
-
-	Input Result = { values, valuesSize };
-	return Result;
+	return inputBuffer;
 }
 

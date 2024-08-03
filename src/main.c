@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "transform.h"
 #include "datastream.h"
@@ -52,20 +53,21 @@ int main(int argc, char** argv) {
 	}
 
 	// get data
-	Input data;
-	if (argc == 2) {
-		// get data from pipes if only 1 args
-		data = piped_data();
-	} else {
+	char* data;
+	if (argc > 2) {
 		// when enough args are provided
-		data.Values = &argv[2];
-		data.Size = argc - 2;
+		data = argv[2];
+	} else {
+		// get data from pipes
+		data = piped_data();
 	}
 
-	// perform requested action on all arguments
-	for (uint i = 0; i < data.Size; i++) {
-		Actions[lActionIndex].Action(&data.Values[i]);
-	}
+	// perform requested action
+	Actions[lActionIndex].Action(&data);
+
+	// free data if only it was derived from pipes
+	if (argc == 2)
+		free(data);
 
 	return 0;
 }
@@ -73,6 +75,11 @@ int main(int argc, char** argv) {
 void print_help() {
 	printf("Text Invert (ti): Utility to invert text in differet forms.\n");
 	print_usage();
+
+	printf("Interactive Mode\n");
+	printf("When the utility is invoked with only an OPTION and no text, it enters\n");
+	printf("interactive mode. In this mode, text can be entered at the prompt. To exit\n");
+	printf("interactive mode and trigger the action, `Ctrl+D` should be pressed.\n");
 }
 
 void print_option(char* s, char* l, char* d) {
