@@ -2,14 +2,17 @@
 #pragma once
 
 // case
-void upper(char** aText);
-void lower(char** aText);
-void sentence(char** aText);
-void word(char** aText);
+void lower(char** aText);		// -c --case
+void upper(char** aText);		// -C --CASE
+void sentence(char** aText);	// -s --sentence
+void word(char** aText);		// -w --word
 
 // character play
-void rotate13(char** aText);
-void flip(char** aText);
-void troll(char** aText);
+void rotate13(char** aText);	// -r --rotate13
+void flip(char** aText);		// -f --flip
+void mock(char** aText);		// -m --mock
 
-void charindx(char** aText);
+// int view
+void charindx(char** aText);	// -i --index
+void ascii(char** aText);		// -a --ascii
+

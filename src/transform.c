@@ -78,7 +78,7 @@ void rotate13(char** aText) {
 }
 
 // mOcK tExT
-void troll(char** aText) {
+void mock(char** aText) {
 	bool lSmall = true;
 
 	for (int i = 0; (*aText)[i] != '\0'; i++) {
@@ -113,6 +113,14 @@ void charindx(char** aText) {
         } else {
             printf("%c", (*aText)[i]);
         }
+    }
+    printf("\n");
+}
+
+// 112 114 105 110 116 32 99 104 97 114 115 32 97 115 32 65 83 67 73 73
+void ascii(char** aText) {
+    for (int i = 0; (*aText)[i] != '\0'; i++) {
+		printf("%02d ", (*aText)[i]);
     }
     printf("\n");
 }
