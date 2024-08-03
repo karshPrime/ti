@@ -2,17 +2,24 @@
 #include <stdio.h>
 #include <string.h>
 #include "transform.h"
+#include "datastream.h"
 
 void print_help();
 void print_about();
 
-typedef unsigned int uint;
-
-struct Flags {
-	char*	SCall;
-	char*	LCall;
-	void	(*Action)(char**);
+// all supported actions with their flags
+const struct Flags Actions[] = {
+	{ "-c",	"--case",		lower	 },
+	{ "-C",	"--CASE",		upper	 },
+	{ "-s",	"--sentence",	sentence },
+	{ "-w",	"--word",		word	 },
+	{ "-r",	"--rotate13",	rotate13 },
+	{ "-f",	"--flip",		flip	 },
+	{ "-m",	"--mock",		mock	 },
+	{ "-i",	"--charindx",	charindx },
+	{ "-a",	"--ascii",		ascii	 }
 };
+const uint ActionsCount = sizeof(Actions) / sizeof(Actions[0]);
 
 int main(int argc, char** argv) {
 	// exit if not sufficient args are provided
@@ -22,20 +29,6 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 	char* lCmd = argv[1];
-
-	// all supported actions with their flags
-	const struct Flags lActions[] = {
- 		{ "-c",	"--case",		lower	 },
-		{ "-C",	"--CASE",		upper	 },
-		{ "-s",	"--sentence",	sentence },
-		{ "-w",	"--word",		word	 },
-		{ "-r",	"--rotate13",	rotate13 },
-		{ "-f",	"--flip",		flip	 },
-		{ "-m",	"--mock",		mock	 },
-		{ "-i",	"--charindx",	charindx },
-		{ "-a",	"--ascii",		ascii	 }
-	};
-	const uint lActionsCount = 9;
 
 	// placeholder
 	// give real values
