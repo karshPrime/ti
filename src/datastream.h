@@ -21,5 +21,5 @@ typedef struct {
 } Input;
 
 Input piped_data();
-bool check_command(char** aInput, Flags aCompare);
+bool check_cmd(char** aInput, char* aShort, char* aLong);
 

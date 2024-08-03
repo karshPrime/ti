@@ -1,6 +1,5 @@
 
 #include <stdio.h>
-#include <string.h>
 
 #include "transform.h"
 #include "datastream.h"
@@ -23,31 +22,24 @@ const Flags Actions[] = {
 const uint ActionsCount = sizeof(Actions) / sizeof(Actions[0]);
 
 int main(int argc, char** argv) {
-	Input data;
-
+	// exit if not sufficient args are provided
 	if (argc < 2) {
-		// exit if not sufficient args are provided
 		fprintf(stderr, "Error: Insufficient arguments provided.\n");
 		print_usage();
 		return 1;
 	}
-	else if (argc == 2) {
-		// get data from pipes if only 1 args
-		data = piped_data();
-	}
-	else {
-		// when enough args are provided
-		data.Values = &argv[2];
-		data.Size = argc - 2;
-	}
 	char* cmd = argv[1];
+
+	// check if user was requesting help
+	if (check_cmd(&cmd, "-h", "--help")) {
+		print_help();
+		return 0;
+	}
 
 	// find corresponding action for given command
 	uint lActionIndex = ActionsCount;
 	for (uint i = 0; i < ActionsCount; i++) {
-		if (!strcmp(cmd, Actions[i].STrigger) ||
-				!strcmp(cmd, Actions[i].LTrigger))
-		{
+		if (check_cmd(&cmd, Actions[i].STrigger, Actions[i].LTrigger)) {
 			lActionIndex = i;
 			break;
 		}
@@ -55,8 +47,19 @@ int main(int argc, char** argv) {
 
 	// invalid command was used
 	if (lActionIndex == ActionsCount) {
-		fprintf(stderr, "Invalid Argument: %s", cmd);
+		fprintf(stderr, "Error: Invalid Argument: %s\n", cmd);
 		return 1;
+	}
+
+	// get data
+	Input data;
+	if (argc == 2) {
+		// get data from pipes if only 1 args
+		data = piped_data();
+	} else {
+		// when enough args are provided
+		data.Values = &argv[2];
+		data.Size = argc - 2;
 	}
 
 	// perform requested action on all arguments

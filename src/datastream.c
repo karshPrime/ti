@@ -9,6 +9,10 @@
 
 #include "datastream.h"
 
+bool check_cmd(char** aInput, char* aShort, char* aLong) {
+	return !( strcmp(*aInput, aShort) && strcmp(*aInput, aLong) );
+}
+
 Input piped_data() {
 	char *inputBuffer = NULL;
 	unsigned int bufferSize = 0;
@@ -72,7 +76,7 @@ Input piped_data() {
 	// Clean up the input buffer
 	free(inputBuffer);
 
-	struct Input Result = { values, valuesSize };
+	Input Result = { values, valuesSize };
 	return Result;
 }
 
