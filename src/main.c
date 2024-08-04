@@ -50,6 +50,7 @@ int main(int argc, char** argv) {
 	// invalid command was used
 	if (lActionIndex == ActionsCount) {
 		fprintf(stderr, "Error: Invalid Argument: %s\n", cmd);
+		print_usage();
 		return 1;
 	}
 

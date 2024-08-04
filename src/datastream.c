@@ -24,7 +24,7 @@ char* piped_data() {
 			bufferSize += 256;
 			char *newBuffer = realloc(inputBuffer, bufferSize);
 			if (!newBuffer) {
-				fprintf(stderr, "Memory allocation error\n");
+				fprintf(stderr, "Error: Memory allocation\n");
 				free(inputBuffer);
 				exit(1);
 			}
@@ -37,7 +37,7 @@ char* piped_data() {
 		bufferSize += 1;
 		char *newBuffer = realloc(inputBuffer, bufferSize);
 		if (!newBuffer) {
-			fprintf(stderr, "Memory allocation error\n");
+			fprintf(stderr, "Error: Memory allocation\n");
 			free(inputBuffer);
 			exit(1);
 		}
