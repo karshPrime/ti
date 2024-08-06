@@ -7,9 +7,6 @@
 
 #include <stdbool.h>
 
-#include "transform.h"
-#include "crypto.h"
-
 typedef unsigned int uint;
 
 typedef enum {
@@ -18,13 +15,13 @@ typedef enum {
 } Call;
 
 typedef struct {
-	Call Type;
 	const char* STrigger;
 	const char* LTrigger;
 	union {
 		void(*Transform)(char**);
 		void(*Crypto)(char**, char**);
 	} Command;
+	const Call  Type;
 } Action;
 
 typedef struct {
@@ -32,20 +29,8 @@ typedef struct {
 	bool   InHeap;
 } Data;
 
-// all supported actions with their flags
-const Action Actions[] = {
-	{ Transform, "-c",	"--case",		lower		},
-	{ Transform, "-C",	"--CASE",		upper		},
-	{ Transform, "-s",	"--sentence",	sentence	},
-	{ Transform, "-w",	"--word",		word		},
-	{ Transform, "-r",	"--rotate13",	rotate13	},
-	{ Transform, "-f",	"--flip",		flip		},
-	{ Transform, "-m",	"--mock",		mock		},
-	{ Transform, "-i",	"--charindx",	charindx	},
-	{ Transform, "-a",	"--ascii",		ascii		},
-	{ Transform, "-A", "--ascii-bin",	ascii_bin	}
-};
-const uint ActionsCount = sizeof(Actions) / sizeof(Actions[0]);
+extern const Action Actions[];
+extern const uint ActionsCount;
 
 // called command
 void   check_help(char** aInput);
