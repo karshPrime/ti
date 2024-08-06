@@ -12,7 +12,7 @@
 //- Local Helper ---------------------------------------------------------------
 
 // format usage options
-void print_option(char* s, char* l, char* d) {
+void print_option(const char* s, const char* l, const char* d) {
 	printf("  %-3s %-11s %s\n", s, l, d);
 }
 
@@ -46,8 +46,8 @@ void error_invalid_command(const char** aArgument) {
 } 
 
 // break if not enough arguments
-void error_missing_args(int* argc) {
-	if (*argc < 2) {
+void error_missing_args(const int* aProvided, const int aNeeded) {
+	if (*aProvided < aNeeded) {
 		fprintf(stderr, "Error: Insufficient arguments provided.\n");
 		print_usage();
 		exit(1);

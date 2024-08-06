@@ -33,12 +33,10 @@ extern const Action Actions[];
 extern const uint ActionsCount;
 
 // called command
-void   check_help(char** aInput);
-Action get_action(char** aInput);
+void check_help(char** aInput);
+uint get_action_id(char** aInput);
 
 // input data
-Data   get_data(int* argc, char*** argv, Call* aType);
-void   free_data(Data* lData);
-char*  get_key(int* argc, char*** argv);
-
+Data get_data(const int* argc, char*** argv, const Call* aType);
+void free_data(Data* lData);
 

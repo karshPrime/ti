@@ -50,34 +50,46 @@ char* get_piped_data() {
 
 // if user requested help, print help menu and exit
 void check_help(char** aInput) {
-	if (check_cmd(aInput, "-h", "--help"))
+	if ( check_cmd(aInput, "-h", "--help") ) {
 		print_help();
+	}
 }
 
 // return Action if triggered command was valid, else terminate
-Action get_action(char** aInput) {
-	Action Result;
+uint get_action_id(char** aInput) {
+	for (uint i = 0; i < ActionsCount; i++) {
+		if ( check_cmd(aInput, Actions[i].STrigger, Actions[i].LTrigger) ) {
+			return i;
+		}
+	}
 
-	return Result;
+	return ActionsCount;
 }
 
 // check for data in args and pipe and return it
-Data get_data(int* argc, char*** argv, Call* aType) {
+Data get_data(const int* argc, char*** argv, const Call* aType) {
 	Data Result;
+	uint lArgsCount = 3;
+
+	if ( *aType == Transform ) {
+		lArgsCount = 2;
+	}
+
+	if ( *argc == lArgsCount ) {
+		Result.Value = get_piped_data();
+		Result.InHeap = true;
+	} else {
+		Result.Value = *argv[lArgsCount];
+		Result.InHeap = false;
+	}
 
 	return Result;
 }
 
 // if data is stored in heap, free it
 void free_data(Data* lData) {
-	if (lData->InHeap)
+	if ( lData->InHeap ) {
 		free(lData->Value);
-}
-
-// scrape inputs and return key for cryptograpy
-char* get_key(int* argc, char*** argv) {
-	char* Result;
-
-	return Result;
+	}
 }
 

@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv) {
 	// break if not sufficient args are provided
-	error_missing_args(&argc);
+	error_missing_args(&argc, 2);
 
 	// for better readability
 	char* cmd = argv[1];
@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
 
 	// find action for given command
 	// break if unsupported command
-	Action lAction = get_action(&cmd);
+	const Action lAction = Actions[get_action_id(&cmd)];
 	
 	// get data from args and pipe
 	Data lData = get_data(&argc, &argv, &lAction.Type);
@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
 	if (lAction.Type == Transform) {
 		lAction.Command.Transform(&lData.Value);
 	} else { // lAction.Type == Crypto
+		error_missing_args(&argc, 3);
 		lAction.Command.Crypto(&lData.Value, &argv[2]);
 	}
 
