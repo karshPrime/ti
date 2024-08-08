@@ -7,13 +7,13 @@ int main(int argc, char** argv) {
 	error_missing_args(&argc);
 
 	// for better readability
-	char* cmd = argv[1];
+	const char* CMD = argv[1];
 
 	// print help and break if user asking for help
+	check_help(&CMD);
 
-	// find action for given command
-	// break if unsupported command
-	const Action lAction = Actions[get_action_id(&cmd)];
+	// find action for given input; break for unsupported input 
+	Call cAction = get_action(&CMD);
 	
 	// get data from args and pipe
 	Data lData = get_data(&argc, &argv);

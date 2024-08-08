@@ -24,9 +24,9 @@ typedef struct {
 extern const Action Actions[];
 extern const uint ActionCount;
 
-// called command
-void check_help(char** aInput);
-uint get_action_id(char** aInput);
+// call command
+void check_help(const char** CMD);
+Call get_action(const char** CMD);
 
 // input data
 Data get_data(const int* argc, char*** argv);
