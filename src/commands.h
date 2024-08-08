@@ -8,20 +8,12 @@
 #include <stdbool.h>
 
 typedef unsigned int uint;
-
-typedef enum {
-	Transform,
-	Crypto
-} Call;
+typedef void (*Call)(char**);
 
 typedef struct {
 	const char* STrigger;
 	const char* LTrigger;
-	union {
-		void(*Transform)(char**);
-		void(*Crypto)(char**, char**);
-	} Command;
-	const Call  Type;
+	Call		Command;
 } Action;
 
 typedef struct {
@@ -30,13 +22,13 @@ typedef struct {
 } Data;
 
 extern const Action Actions[];
-extern const uint ActionsCount;
+extern const uint ActionCount;
 
 // called command
 void check_help(char** aInput);
 uint get_action_id(char** aInput);
 
 // input data
-Data get_data(const int* argc, char*** argv, const Call* aType);
+Data get_data(const int* argc, char*** argv);
 void free_data(Data* lData);
 

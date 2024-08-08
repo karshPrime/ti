@@ -1,50 +1,28 @@
 
 #include "commands.h"
 #include "transform.h"
-#include "crypto.h"
+#include "colour.h"
 
 const Action Actions[] = {
-    {
-        .STrigger = "-c", .LTrigger = "--case",
-        .Command = { .Transform = lower }, .Type = Transform
-    },
-    {
-        .STrigger = "-C", .LTrigger = "--CASE",
-        .Command = { .Transform = upper }, .Type = Transform
-    },
-    {
-        .STrigger = "-s", .LTrigger = "--sentence",
-        .Command = { .Transform = sentence }, .Type = Transform
-    },
-    {
-        .STrigger = "-w", .LTrigger = "--word",
-        .Command = { .Transform = word }, .Type = Transform
-    },
-    {
-        .STrigger = "-r", .LTrigger = "--rotate13",
-        .Command = { .Transform = rotate13 }, .Type = Transform
-    },
-    {
-        .STrigger = "-f", .LTrigger = "--flip",
-        .Command = { .Transform = flip }, .Type = Transform
-    },
-    {
-        .STrigger = "-m", .LTrigger = "--mock",
-        .Command = { .Transform = mock }, .Type = Transform
-    },
-    {
-        .STrigger = "-i", .LTrigger = "--charindx",
-        .Command = { .Transform = charindx }, .Type = Transform
-    },
-    {
-        .STrigger = "-a", .LTrigger = "--ascii",
-        .Command = { .Transform = ascii }, .Type = Transform
-    },
-    { 
-        .STrigger = "-A", .LTrigger = "--ascii-bin",
-        .Command = { .Transform = ascii_bin }, .Type = Transform
-    }
-};
+	// transform commands
+    { "-c",  "--case",   lower },
+    { "-C",  "--CASE",  upper },
+    { "-s",  "--sentence",  sentence },
+    { "-w",  "--word",  word },
+    { "-r",  "--rotate13",  rotate13 },
+    { "-f",  "--flip",  flip },
+    { "-m",  "--mock",  mock },
+    { "-i",  "--charindx",  charindx },
+    { "-a",  "--ascii",  ascii },
+    { "-a",  "--ascii-bin",  ascii_bin },
 
-const uint ActionsCount = sizeof(Actions) / sizeof(Actions[0]);
+	// colour commands
+	{ "-dr", "--dark-red",  dark_red },
+	{ "-db", "--dark-blue",  dark_blue },
+	{ "-dg", "--dark-green",  dark_green },
+	{ "-lr", "--light-red",  light_red },
+	{ "-lb", "--light-blue",  light_blue },
+	{ "-lg", "--light-green",  light_green }
+};
+const uint ActionCount = sizeof(Actions) / sizeof(Actions[0]);
 

@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "colour.h"
 
 #include "printbreak.h"
 
@@ -21,7 +22,8 @@ void print_usage() {
 	printf("\nUSAGE:\n");
 	printf("  $ ti {OPTION} text\n");
 	printf("  $ <stdout> | ti {OPTION}\n");
-	printf("\nOPTIONS:\n");
+
+	printf("\nTRANSFORM OPTIONS:\n");
 	print_option("c", "case", "lowercase all text");
 	print_option("C", "CASE", "upperCase all text");
 	print_option("s", "sentence", "Sentence case all text");
@@ -29,9 +31,19 @@ void print_usage() {
 	print_option("r", "rotate13", "hfr ebgngvba 13 nytbevguz");
 	print_option("f", "flip", "fLIP CASES");
 	print_option("m", "mock", "mOcK TeXt");
-	print_option("i", "index", "individual letter's alphabetic index");
-	print_option("a", "ascii", "individual letter's ASCII decimal");
-	print_option("A", "ascii-bin", "individual letter's ASCII binary");
+	print_option("i", "index", "every letter's alphabetic index");
+	print_option("a", "ascii", "every letter's ASCII decimal");
+	print_option("A", "ascii-bin", "every letter's ASCII binary");
+
+	printf("\nCOLOUR OPTIONS:\n");
+	char* lSampleText = "print in different colours";
+	print_option("lr", "light-red",	  "");	light_red(&lSampleText);
+	print_option("lg", "light-blue",  "");	light_blue(&lSampleText);
+	print_option("lb", "light-green", "");	light_green(&lSampleText);
+	print_option("dr", "dark-red",	  "");	dark_red(&lSampleText);
+	print_option("dg", "dark-blue",	  "");	dark_blue(&lSampleText);
+	print_option("db", "dark-green",  "");	dark_green(&lSampleText);
+
 	printf("\n");
 }
 
@@ -46,8 +58,10 @@ void error_invalid_command(const char** aArgument) {
 } 
 
 // break if not enough arguments
-void error_missing_args(const int* aProvided, const int aNeeded) {
-	if (*aProvided < aNeeded) {
+void error_missing_args(const int* argc) {
+	const int cMinimumArgs = 2;
+
+	if (*argc < cMinimumArgs) {
 		fprintf(stderr, "Error: Insufficient arguments provided.\n");
 		print_usage();
 		exit(1);
