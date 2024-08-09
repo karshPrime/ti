@@ -1,5 +1,5 @@
 # Compiler and flags
-CC = clang
+CC = gcc
 CFLAGS = -Wall -O2 -I$(LIB_DIR)
 
 # Directories
