@@ -1,11 +1,16 @@
 
 #pragma once
 
-void dark_red(char** aText);
-void dark_blue(char** aText);
-void dark_green(char** aText);
+#ifdef TICOLOR_EXPORTS
+	#define TICOLOR_API __declspec(dllexport)
+#else
+	#define TICOLOR_API __declspec(dllimport)
+#endif
 
-void light_red(char** aText);
-void light_blue(char** aText);
-void light_green(char** aText);
+TICOLOR_API void dark_red(char** aText);
+TICOLOR_API void dark_blue(char** aText);
+TICOLOR_API void dark_green(char** aText);
 
+TICOLOR_API void light_red(char** aText);
+TICOLOR_API void light_blue(char** aText);
+TICOLOR_API void light_green(char** aText);
