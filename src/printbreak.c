@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "colour.h"
+#include "ticolour.h"
 
 #include "printbreak.h"
 

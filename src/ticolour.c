@@ -1,5 +1,5 @@
 
-#include "colour.h"
+#include "ticolour.h"
 
 void dark_red(char** aText) {
 	//

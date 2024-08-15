@@ -1,7 +1,7 @@
 
 #include "commands.h"
 #include "transform.h"
-#include "colour.h"
+#include "ticolour.h"
 
 const Action Actions[] = {
 	// transform commands
