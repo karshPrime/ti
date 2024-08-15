@@ -1,16 +1,22 @@
 
-#pragma once
+#ifndef TICOLOUR_H
+#define TICOLOUR_H
 
-#ifdef TICOLOR_EXPORTS
-	#define TICOLOR_API __declspec(dllexport)
+#ifdef _WIN32
+	#ifdef BUILD_DLL
+		#define DLL_EXPORT __declspec(dllexport)
+	#else
+		#define DLL_EXPORT __declspec(dllimport)
+	#endif
 #else
-	#define TICOLOR_API __declspec(dllimport)
+	#define DLL_EXPORT
 #endif
 
-TICOLOR_API void dark_red(char** aText);
-TICOLOR_API void dark_blue(char** aText);
-TICOLOR_API void dark_green(char** aText);
+DLL_EXPORT void dark_red(char** aText);
+DLL_EXPORT void dark_blue(char** aText);
+DLL_EXPORT void dark_green(char** aText);
+DLL_EXPORT void light_red(char** aText);
+DLL_EXPORT void light_blue(char** aText);
+DLL_EXPORT void light_green(char** aText);
 
-TICOLOR_API void light_red(char** aText);
-TICOLOR_API void light_blue(char** aText);
-TICOLOR_API void light_green(char** aText);
+#endif // TICOLOUR_H

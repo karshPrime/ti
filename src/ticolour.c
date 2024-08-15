@@ -1,6 +1,8 @@
 
-#include "ticolour.h"
 #include <windows.h>
+#include <stdio.h>
+
+#include "ticolour.h"
 
 void set_color(WORD color) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);

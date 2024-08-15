@@ -1,53 +1,31 @@
-# Compiler and flags
-CC = gcc
-CFLAGS = -Wall -O2 -I$(LIB_DIR)
 
-# Directories
-SRC_DIR = src
+CC = gcc
+CFLAGS = -Wall -O2 -Ilib
+LDFLAGS = -Llib -lm
+
 OBJ_DIR = obj
+SRC_DIR = src
+BIN_DIR = bin
 LIB_DIR = lib
 
-# Source files
-SRCS := $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(OBJ_DIR)/actions.o $(OBJ_DIR)/commands.o $(OBJ_DIR)/main.o \
+       $(OBJ_DIR)/printbreak.o $(OBJ_DIR)/transform.o
+DLL_OBJS = $(OBJ_DIR)/ticolour.o
 
-# Object files
-OBJS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
+TARGET = $(BIN_DIR)/ti.exe
+DLL = $(LIB_DIR)/ticolour.dll
 
-# Executable
-TARGET = bin
-
-# Default target
 all: $(TARGET)
 
-# Linking
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^ -L$(LIB_DIR) -lm
+$(TARGET): $(OBJS) $(DLL)
+	$(CC) -o $@ $(OBJS) $(LDFLAGS) -lticolour
 
-# Compilation
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
+$(DLL): $(DLL_OBJS)
+	$(CC) -shared -o $(DLL) $(DLL_OBJS) -Wl,--out-implib,$(LIB_DIR)/libticolour.a
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# Debug target
-debug: $(TARGET)
-	lldb $(TARGET)
-
-# Debug Compilation
-debug_compile:
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SRCS) -g -L$(LIB_DIR) -lm
-
-# Run the program (compile if necessary)
-run: all
-	@echo "Running the program..."
-	@./$(TARGET)
-
-# Clean
 clean:
-	rm -rf $(OBJ_DIR) $(TARGET)
-
-# Phony targets
-.PHONY: all clean debug debug_compile run
+	rm -f $(OBJ_DIR)/*.o $(BIN_DIR)/* $(LIB_DIR)/*.dll $(LIB_DIR)/*.a
 
