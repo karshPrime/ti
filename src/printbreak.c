@@ -36,14 +36,25 @@ void print_usage() {
 	print_option("A", "ascii-bin", "every letter's ASCII binary");
 
 	printf("\nCOLOUR OPTIONS:\n");
-	char* lSampleText = "print in different colours";
-	print_option("lr", "light-red",	  "");	light_red(&lSampleText);
-	print_option("lg", "light-blue",  "");	light_blue(&lSampleText);
-	print_option("lb", "light-green", "");	light_green(&lSampleText);
-	print_option("dr", "dark-red",	  "");	dark_red(&lSampleText);
-	print_option("dg", "dark-blue",	  "");	dark_blue(&lSampleText);
-	print_option("db", "dark-green",  "");	dark_green(&lSampleText);
+	char* lSampleText;
 
+	lSampleText ="  lr  light-red";
+	light_red(&lSampleText);
+
+	lSampleText ="  lg  light-blue";
+	light_blue(&lSampleText);
+
+	lSampleText ="  lb  light-green";
+	light_green(&lSampleText);
+
+	lSampleText ="  dr  dark-red";
+	dark_red(&lSampleText);
+
+	lSampleText ="  dg  dark-blue";
+	dark_blue(&lSampleText);
+
+	lSampleText ="  db  dark-green";
+	dark_green(&lSampleText);
 	printf("\n");
 }
 
