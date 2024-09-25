@@ -1,31 +1,53 @@
 
+# Compiler and directories
 CC = gcc
-CFLAGS = -Wall -O2 -Ilib
-LDFLAGS = -Llib -lm
-
-OBJ_DIR = obj
 SRC_DIR = src
-BIN_DIR = bin
+INC_DIR = include
+OBJ_DIR = obj
 LIB_DIR = lib
+BIN_DIR = bin
 
-OBJS = $(OBJ_DIR)/actions.o $(OBJ_DIR)/commands.o $(OBJ_DIR)/main.o \
-       $(OBJ_DIR)/printbreak.o $(OBJ_DIR)/transform.o
-DLL_OBJS = $(OBJ_DIR)/ticolour.o
-
+# Output files
+DLL = $(BIN_DIR)/ticolour.dll
 TARGET = $(BIN_DIR)/ti.exe
-DLL = $(LIB_DIR)/ticolour.dll
 
+# Object files
+DLL_OBJS = $(OBJ_DIR)/ticolour.o
+TI_OBJS = $(OBJ_DIR)/actions.o $(OBJ_DIR)/commands.o $(OBJ_DIR)/main.o \
+          $(OBJ_DIR)/printbreak.o $(OBJ_DIR)/transform.o
+
+# Flags
+CFLAGS = -Wall -O2 -I$(INC_DIR)
+LDFLAGS_DLL = -shared -Wl,--out-implib,$(LIB_DIR)/libticolour.a
+LDFLAGS_TGT = -L$(LIB_DIR) -lticolour
+
+# Default target
 all: $(TARGET)
 
-$(TARGET): $(OBJS) $(DLL)
-	$(CC) -o $@ $(OBJS) $(LDFLAGS) -lticolour
-
+# Build the DLL
 $(DLL): $(DLL_OBJS)
-	$(CC) -shared -o $(DLL) $(DLL_OBJS) -Wl,--out-implib,$(LIB_DIR)/libticolour.a
+	$(CC) $(LDFLAGS_DLL) -o $@ $(DLL_OBJS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+# Build the executable
+$(TARGET): $(TI_OBJS) $(DLL)
+	$(CC) -o $@ $(TI_OBJS) $(LDFLAGS_TGT)
+
+# Compile source files into object files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-clean:
-	rm -f $(OBJ_DIR)/*.o $(BIN_DIR)/* $(LIB_DIR)/*.dll $(LIB_DIR)/*.a
+# Create necessary directories
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
+
+$(LIB_DIR):
+	mkdir -p $(LIB_DIR)
+
+# Clean up generated files
+clean:
+	rm -rf $(OBJ_DIR) $(LIB_DIR) $(BIN_DIR)/ti.exe $(BIN_DIR)/ticolour.dll
+
+.PHONY: all clean
