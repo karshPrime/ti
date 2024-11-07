@@ -13,7 +13,7 @@
 //- Local Helper ---------------------------------------------------------------
 
 // check if input is same as any existing commands
-bool check_cmd(char** aInput, const char* aShort, const char* aLong) {
+bool check_cmd(const char** aInput, const char* aShort, const char* aLong) {
 	return !(strcmp(*aInput, aShort) && strcmp(*aInput, aLong));
 }
 
@@ -48,38 +48,39 @@ char* get_piped_data() {
 //- Export Functions -----------------------------------------------------------
 
 // if user requested help, print help menu and exit
-void check_help(char** aInput) {
-	if (check_cmd(aInput, "-h", "--help")) {
+void check_help(const char** CMD) {
+	if (check_cmd(CMD, "-h", "--help")) {
 		print_help();
 	}
 }
 
 // return Action if triggered command was valid, else terminate
-uint get_action_id(char** aInput) {
-	for (uint i = 0; i < ActionsCount; i++) {
-		if (check_cmd(aInput, Actions[i].STrigger, Actions[i].LTrigger)) {
-			return i;
+Call get_action(const char** CMD) {
+	for (uint i = 0; i < ActionCount; i++) {
+		if (check_cmd(CMD, Actions[i].STrigger, Actions[i].LTrigger)) {
+
+			return Actions[i].Command;
 		}
 	}
 
-	error_invalid_command((const char**)aInput);
-	return ActionsCount; // this will never be reached due to the above exit call
+	// exit the program informing user about invalid command use
+	error_invalid_command(CMD);
+
+	// this will never be reached due to the above exit call
+	static Call Result;
+	return Result;
 }
 
 // check for data in args and pipe and return it
-Data get_data(const int* argc, char*** argv, const Call* aType) {
+Data get_data(const int* argc, char*** argv) {
 	Data Result;
-	uint lArgsCount = 3;
+	const uint cArgsCountShouldBe = 2;
 
-	if (*aType == Transform) {
-		lArgsCount = 2;
-	}
-
-	if (*argc == lArgsCount) {
+	if (*argc == cArgsCountShouldBe) {
 		Result.Value = get_piped_data();
 		Result.InHeap = true;
 	} else {
-		Result.Value = (*argv)[lArgsCount];
+		Result.Value = (*argv)[cArgsCountShouldBe];
 		Result.InHeap = false;
 	}
 
@@ -92,3 +93,4 @@ void free_data(Data* lData) {
 		free(lData->Value);
 	}
 }
+

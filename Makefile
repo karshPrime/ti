@@ -1,53 +1,53 @@
-# Compiler and flags
-CC = clang
-CFLAGS = -Wall -O2 -I$(LIB_DIR)
 
-# Directories
+# Compiler and directories
+CC = gcc
 SRC_DIR = src
+INC_DIR = include
 OBJ_DIR = obj
 LIB_DIR = lib
+BIN_DIR = bin
 
-# Source files
-SRCS := $(wildcard $(SRC_DIR)/*.c)
+# Output files
+DLL = $(BIN_DIR)/ticolour.dll
+TARGET = $(BIN_DIR)/ti.exe
 
 # Object files
-OBJS := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
+DLL_OBJS = $(OBJ_DIR)/ticolour.o
+TI_OBJS = $(OBJ_DIR)/actions.o $(OBJ_DIR)/commands.o $(OBJ_DIR)/main.o \
+          $(OBJ_DIR)/printbreak.o $(OBJ_DIR)/transform.o
 
-# Executable
-TARGET = bin
+# Flags
+CFLAGS = -Wall -O2 -I$(INC_DIR)
+LDFLAGS_DLL = -shared -Wl,--out-implib,$(LIB_DIR)/libticolour.a
+LDFLAGS_TGT = -L$(LIB_DIR) -lticolour
 
 # Default target
 all: $(TARGET)
 
-# Linking
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^ -L$(LIB_DIR) -lm
+# Build the DLL
+$(DLL): $(DLL_OBJS)
+	$(CC) $(LDFLAGS_DLL) -o $@ $(DLL_OBJS)
 
-# Compilation
+# Build the executable
+$(TARGET): $(TI_OBJS) $(DLL)
+	$(CC) -o $@ $(TI_OBJS) $(LDFLAGS_TGT)
+
+# Compile source files into object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c $< -o $@
 
+# Create necessary directories
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-# Debug target
-debug: $(TARGET)
-	lldb $(TARGET)
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
 
-# Debug Compilation
-debug_compile:
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SRCS) -g -L$(LIB_DIR) -lm
+$(LIB_DIR):
+	mkdir -p $(LIB_DIR)
 
-# Run the program (compile if necessary)
-run: all
-	@echo "Running the program..."
-	@./$(TARGET)
-
-# Clean
+# Clean up generated files
 clean:
-	rm -rf $(OBJ_DIR) $(TARGET)
+	rm -rf $(OBJ_DIR) $(LIB_DIR) $(BIN_DIR)/ti.exe $(BIN_DIR)/ticolour.dll
 
-# Phony targets
-.PHONY: all clean debug debug_compile run
-
+.PHONY: all clean
